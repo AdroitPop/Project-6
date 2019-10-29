@@ -1,0 +1,91 @@
+/* Remove the navbar's default margin-bottom and rounded borders */ 
+.navbar {
+    margin-bottom: 0;
+    border-radius: 0;
+  }
+
+  /*Adding the player1 as batman and player2 as supperman*/
+  #superman{
+    widows: 100px;
+    width: 100px;
+    display: block;
+    margin: 0 auto;
+  }
+  #batman{
+    widows: 100px;
+    width: 100px;
+     display: block;
+    margin: 0 auto;
+  
+  }
+
+  /* Set height of the grid so .sidenav can be 100% (adjust as needed) */
+  .row.content {height: 450px}
+  
+  /* Set gray background color and 100% height */
+  .sidenavBat {
+    padding-top: 20px;
+    background-color: #f9ff6c;
+    height: 100%;
+  }
+
+  .sidenavSupper {
+    padding-top: 20px;
+    background-color: #3e5af7;
+    height: 100%;
+  }
+  
+  /* Set black background color, white text and some padding */
+  footer {
+    background-color: #555;
+    color: white;
+    padding: 15px;
+  }
+  
+  /* On small screens, set height to 'auto' for sidenav and grid */
+  @media screen and (max-width: 767px) {
+    .sidenav {
+      height: auto;
+      padding: 15px;
+    }
+    .row.content {height:auto;} 
+  }
+
+
+  #battle-field {
+    border-radius: 7px;
+    padding-right: 1px;
+    padding-left: 1px;
+    background-position: center; 
+    background-repeat: no-repeat; 
+    background-size: cover; 
+    text-align: center;
+  }
+
+  .grid-item {
+    
+    background-color: rgb(135, 248, 248);
+    outline: 1px solid rgba(1, 195, 1, 0.493);
+    border-radius: 7px;
+    width: 60px;
+    height: 50px;
+    display: inline-flex;
+    margin: 0px auto;
+  
+  }
+
+  .grid-item.unavailable {
+      background: #616161;
+  }
+
+  .grid-item.weapon1{
+    background-color: rgb(143, 36, 134);;
+  }
+
+  .grid-item.block {
+    background-image: url("images/block.png");
+    background-position: center; 
+    background-repeat: no-repeat; 
+    background-size: 60px 70px;
+    margin: auto;
+}
