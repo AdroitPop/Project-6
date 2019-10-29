@@ -19,19 +19,36 @@
   
   }
 
+  /* Adding the images to the players classes*/
+  .grid-item.unavailable.player1{
+    background-image: url("images/batman.png");
+    background-position: center; 
+    background-repeat: no-repeat; 
+    background-size: 60px 70px;
+    margin: auto;
+  } 
+ 
+  .grid-item.unavailable.player2{
+    background-image: url("images/superman.png");
+    background-position: center; 
+    background-repeat: no-repeat; 
+    background-size: 60px 70px;
+    margin: auto;
+  } 
+
   /* Set height of the grid so .sidenav can be 100% (adjust as needed) */
   .row.content {height: 450px}
   
   /* Set gray background color and 100% height */
   .sidenavBat {
     padding-top: 20px;
-    background-color: #f9ff6c;
+    background-color: #ffea27;
     height: 100%;
   }
 
   .sidenavSupper {
     padding-top: 20px;
-    background-color: #3e5af7;
+    background-color: #0b5fd2;
     height: 100%;
   }
   
@@ -73,13 +90,21 @@
     margin: 0px auto;
   
   }
-
+/*
   .grid-item.unavailable {
       background: #616161;
   }
 
   .grid-item.weapons{
-    background-color: rgb(143, 36, 134);;
+    background-color: rgb(143, 36, 134);
+  }*/
+
+  .grid-item.weapon1{
+    background-image:url("images/gun.png");
+    background-position: center; 
+    background-repeat: no-repeat; 
+    background-size: 40px 40px;
+    margin: auto;
   }
 
   .grid-item.block {
