@@ -90,20 +90,52 @@
     margin: 0px auto;
   
   }
-/*
+
   .grid-item.unavailable {
       background: #616161;
   }
 
   .grid-item.weapons{
-    background-color: rgb(143, 36, 134);
-  }*/
+    background-color: rgb(253, 253, 253);
+  }
 
   .grid-item.weapon1{
-    background-image:url("images/gun.png");
+    background-image:url("images/gun.jpg");
     background-position: center; 
     background-repeat: no-repeat; 
-    background-size: 40px 40px;
+    background-size: 60px 50px;
+    margin: auto;
+  }
+
+  .grid-item.weapon2{
+    background-image:url("images/hammer.png");
+    background-position: center; 
+    background-repeat: no-repeat; 
+    background-size: 60px 50px;
+    margin: auto;
+  }
+
+  .grid-item.weapon3{
+    background-image:url("images/sword.png");
+    background-position: center; 
+    background-repeat: no-repeat; 
+    background-size: 60px 50px;
+    margin: auto;
+  }
+
+  .grid-item.weapon4{
+    background-image:url("images/bomb.png");
+    background-position: center; 
+    background-repeat: no-repeat; 
+    background-size: 60px 50px;
+    margin: auto;
+  }
+
+  .grid-item.shield {
+    background-image:url("images/shield.png");
+    background-position: center; 
+    background-repeat: no-repeat; 
+    background-size: 50px 50px;
     margin: auto;
   }
 

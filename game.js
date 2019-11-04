@@ -4,34 +4,40 @@
 (function(){
     const gridCount = 10;
     const blockCount = 12;
-    const weaponCount = 6;
 
     const weapons = 
     [
       {
-        name: "Dagger",
+        name: "Gun",
         damage: 15,
         className: "weapon1",
-        image: "images/daga.png"
+        image: "images/gun.png"
       },
       {
-        name: "Hrotti",
+        name: "Hammer",
         damage: 25,
         className: "weapon2",
-        image: "images/espada.png"
+        image: "images/hammer.png"
       },
       {
-        name: "Stormbreaker",
+        name: "Sword",
         damage: 30,
         className: "weapon3",
-        image: "images/hacha.png"
+        image: "images/sword.png"
       },
       {
-        name: "Gungnir",
+        name: "Bomb",
         damage: 35,
         className: "weapon4",
-        image: "images/lanza.png"
+        image: "images/bomb.png"
       },
+      {
+          name: "Shield",
+          damage: 20,
+          className: "shield",
+          image: "images/shield"
+      }
+
     ];
 
     // Adding the players id
@@ -89,22 +95,47 @@
     //Deploying the weapons in random positions
 
     function deployWeapons(){
-        let j = 0;
-        while(j < weaponCount) {
+        weapons.forEach(function (weapon) {
+            let placed = false;
+
+            while(!placed) {
             let position =  generateRandomPosition(); 
             let grid = gridByPosition(position);
             if(!grid.hasClass("unavailable")){
-                grid.addClass("unavailable weapons");
-                j ++;  
+                grid.addClass("unavailable weapons " + weapon.className);
+                placed = true
             }
         }
+        });
+        
     }
 
     // Deploying individual weapons
-
+    //Weapon 1
     function weapon1(){
         deployWeapons();
         grid.addClass("unavailable weapon1");
+    }
+    //Weapon 2
+    function weapon2(){
+        deployWeapons();
+        grid.addClass("unavailable weapon2");
+    }
+    //Weapon 3
+    function weapon3(){
+        deployWeapons();
+        grid.addClass("unavailable weapon3");
+    }
+    //Weapon 4
+    function weapon4(){
+        deployWeapons();
+        grid.addClass("unavailable weapon4");
+    }
+
+    // Sheild
+    function shield(){
+        deployWeapons();
+        grid.addClass("unavailable shield");
     }
 
     // deploying the players in random positions
@@ -125,6 +156,11 @@
             console.log("Removing the blocks!!!!!")
             element.removeClass("block");
             element.removeClass("weapons");
+            element.removeClass("weapon1");
+            element.removeClass("weapon2");
+            element.removeClass("weapon3");
+            element.removeClass("weapon4");
+            element.removeClass("shield");
             element.removeClass("player1");
             element.removeClass("player2");
             element.removeClass("unavailable");
@@ -137,7 +173,7 @@
         resetAll();
         deployPlayers(); 
         deployBlocks(); 
-        weapon1();
-        //deployWeapons();       
+        // weapon1();
+        deployWeapons();       
     })
 })()
