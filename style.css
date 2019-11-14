@@ -146,3 +146,12 @@
     background-size: 60px 70px;
     margin: auto;
 }
+
+.active-player {
+  border: 2px dashed red;
+}
+
+.highlight {
+  background-color: #ffea27;
+  cursor: pointer;
+}
