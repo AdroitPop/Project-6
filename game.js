@@ -52,7 +52,7 @@
     
     const player1 = new Player("player1");
     const player2 = new Player("player2");
-
+    var activePlayer
     function generateRandomPosition() {
         return [Math.floor(Math.random() * gridCount), Math.floor(Math.random() * gridCount)];
     }
@@ -102,7 +102,7 @@
             let position =  generateRandomPosition(); 
             let grid = gridByPosition(position);
             if(!grid.hasClass("unavailable")){
-                grid.addClass("unavailable weapons " + weapon.className);
+                grid.addClass("weapons " + weapon.className);
                 placed = true
             }
         }
@@ -167,6 +167,130 @@
         });
     }
 
+    function setActivePlayer(player) {
+        activePlayer = player;
+        $("."+ activePlayer.id+"-content").addClass("active-player");
+        highlightPath();
+    }
+
+    function highlightPath(){
+      console.log(activePlayer.position.x);  
+      console.log(activePlayer.position.y);
+      let currentX = activePlayer.position.x;
+      let currentY = activePlayer.position.y;
+    //   check left side 
+    let leftCount = 1;
+    while( currentX - leftCount >= 0 ){
+        let block = $('[data-x='+ (currentX - leftCount) +'][data-y='+ currentY +']') 
+        if(block.hasClass('unavailable'))
+            break; 
+        else{
+            block.addClass("highlight"); 
+        }
+        
+        leftCount++;
+        if(leftCount > 3){
+            break;
+        }
+    }
+
+    //   check top side
+    let topCount = 1; 
+    while( currentY -  topCount>= 0 ){
+        let block = $('[data-x='+ (currentX) +'][data-y='+ (currentY - topCount) +']') 
+        if(block.hasClass('unavailable'))
+            break; 
+        else{
+            block.addClass("highlight") 
+        }
+        
+        topCount++;
+        if(topCount > 3){
+            break;
+        }
+    }
+
+    //   check right side 
+    let rightCount = 1;
+    while( currentX + rightCount < gridCount ){
+        let block = $('[data-x='+ (currentX + rightCount) +'][data-y='+ currentY +']') 
+        if(block.hasClass('unavailable'))
+            break; 
+        else{
+            block.addClass("highlight") 
+        }
+        
+        rightCount++;
+        if(rightCount > 3){
+            break;
+        }
+    }
+
+    //   check bottom side 
+    let bottomCount = 1; 
+    while( currentY +  bottomCount>= 0 ){
+        let block = $('[data-x='+ (currentX) +'][data-y='+ (currentY + bottomCount) +']') 
+        if(block.hasClass('unavailable'))
+            break; 
+        else{
+            block.addClass("highlight") 
+        }
+        
+        bottomCount++;
+        if(bottomCount > 3){
+            break;
+        }
+        }
+
+       $('.highlight').on("click", function(){
+           if(!$(this).hasClass("highlight")){
+               return;
+           }
+        resetPlayerOldPosition(activePlayer)  
+        let clickedPosition = [$(this).data("x"), $(this).data("y")] 
+        moveActivePlayerTo(clickedPosition);
+        if(adjacentPlayers()){
+
+        }else if(hasWeapon(clickedPosition)){ 
+
+        }
+        else{
+            // set other player as active and highlight
+            setActivePlayer(nextPlayer())
+        }
+        
+       }) 
+    }
+
+    function hasWeapon(clickedPosition){
+
+    }
+
+    function adjacentPlayers(){
+      p1X = player1.position.x;
+      p1Y = player1.position.y;
+      p2X = player2.position.x;
+      p1Y = player2.position.y;
+      
+    }
+
+    function moveActivePlayerTo(position){
+        activePlayer.position.x = position[0];
+        activePlayer.position.y = position[1];
+        
+        gridByPosition(position).addClass("unavailable " + activePlayer.id); 
+    }
+
+    function resetPlayerOldPosition(player){
+        gridByPosition([activePlayer.position.x,activePlayer.position.y]).removeClass("unavailable")
+        $('.highlight').removeClass("highlight") 
+        $('.grid-item').removeClass(activePlayer.id) 
+    }
+
+    function nextPlayer(){
+        return (activePlayer.id == player1.id ? player2 : player1);
+    }
+
     // initiating Game!!
     generateGrid();
     $('#start-game').click(function() {
@@ -174,6 +298,8 @@
         deployPlayers(); 
         deployBlocks(); 
         // weapon1();
-        deployWeapons();       
+        deployWeapons(); 
+        setActivePlayer(player1); 
+
     })
 })()
