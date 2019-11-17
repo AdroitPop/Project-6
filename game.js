@@ -246,14 +246,30 @@
            if(!$(this).hasClass("highlight")){
                return;
            }
-        resetPlayerOldPosition(activePlayer)  
+        resetPlayerOldPosition(activePlayer);  
         let clickedPosition = [$(this).data("x"), $(this).data("y")] 
         moveActivePlayerTo(clickedPosition);
         if(adjacentPlayers()){
-
-        }else if(hasWeapon(clickedPosition)){ 
-
+            console.log("Players are neck to neck !!");
+            // take the active player class put into variable , same as buttons
+            let playerClass = getElementByClassName("."+ activePlayer.id+"-content");
+            let newAttackButton = document.getElement("Button");
+            let newDefendButton = document.getElement("Button");
+            // Adding the text to the attack & deffend button
+            newAttackButton.textContent = "Attack";
+            newDefendButton.textContent = "Defend";
+            //taking the button element into inside the player element
+            playerClass.appendChild(newAttackButton, newDefendButton);
+            // Adding Classes to Attack button & defend Button
+            newAttackButton.classList.add("fightButton", "attackButton");
+            newDefendButton.classList.add("fightButton", "defendButton");
+            //Adding Id to the buttons
+            newAttackButton.setAttribute('id', 'attack');
+            newDefendButton.setAttribute('id', 'defend');
         }
+        /*else if(hasWeapon(clickedPosition)){ 
+
+        }*/
         else{
             // set other player as active and highlight
             setActivePlayer(nextPlayer())
@@ -267,11 +283,16 @@
     }
 
     function adjacentPlayers(){
-      p1X = player1.position.x;
-      p1Y = player1.position.y;
-      p2X = player2.position.x;
-      p1Y = player2.position.y;
-      
+      let p1X = player1.position.x;
+      let p1Y = player1.position.y;
+      let p2X = player2.position.x;
+      let p2Y = player2.position.y;
+      if((p1X-1==p2X) || (p1X+1==p2X) || (p1Y-1==p2Y) || (p1Y+1==p2Y)){
+          return true;
+      }
+      else{
+          return false;
+      }
     }
 
     function moveActivePlayerTo(position){
