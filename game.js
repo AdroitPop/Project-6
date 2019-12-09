@@ -48,7 +48,11 @@
         y:0
         };
         this.life= 100;
+        this.action=null;
+        this.damagePower = function(){
+            return(this.weapon ? this.weapon.damage : 0);
         }
+    }
     
     const player1 = new Player("player1");
     const player2 = new Player("player2");
@@ -59,7 +63,6 @@
     
     // creating the all grid area
     function generateGrid(){
-        console.log(gridCount)
         let html = "";
         for (let i = 0; i < gridCount; i++) {
             html += "<div class='row'>"
@@ -103,39 +106,12 @@
             let grid = gridByPosition(position);
             if(!grid.hasClass("unavailable")){
                 grid.addClass("weapons " + weapon.className);
+                grid.attr("weapon", weapon.name)
                 placed = true
             }
         }
         });
         
-    }
-
-    // Deploying individual weapons
-    //Weapon 1
-    function weapon1(){
-        deployWeapons();
-        grid.addClass("unavailable weapon1");
-    }
-    //Weapon 2
-    function weapon2(){
-        deployWeapons();
-        grid.addClass("unavailable weapon2");
-    }
-    //Weapon 3
-    function weapon3(){
-        deployWeapons();
-        grid.addClass("unavailable weapon3");
-    }
-    //Weapon 4
-    function weapon4(){
-        deployWeapons();
-        grid.addClass("unavailable weapon4");
-    }
-
-    // Sheild
-    function shield(){
-        deployWeapons();
-        grid.addClass("unavailable shield");
     }
 
     // deploying the players in random positions
@@ -151,20 +127,7 @@
 
     // Reseting & re assigning everything as a new
     function resetAll() {
-        $('.grid-item').each(function() {
-            const element = $(this);
-            console.log("Removing the blocks!!!!!")
-            element.removeClass("block");
-            element.removeClass("weapons");
-            element.removeClass("weapon1");
-            element.removeClass("weapon2");
-            element.removeClass("weapon3");
-            element.removeClass("weapon4");
-            element.removeClass("shield");
-            element.removeClass("player1");
-            element.removeClass("player2");
-            element.removeClass("unavailable");
-        });
+        $('.grid-item').removeClass().addClass("grid-item");
     }
 
     function setActivePlayer(player) {
@@ -174,8 +137,6 @@
     }
 
     function highlightPath(){
-      console.log(activePlayer.position.x);  
-      console.log(activePlayer.position.y);
       let currentX = activePlayer.position.x;
       let currentY = activePlayer.position.y;
     //   check left side 
@@ -242,55 +203,66 @@
         }
         }
 
-       $('.highlight').on("click", function(){
-           if(!$(this).hasClass("highlight")){
-               return;
-           }
-        resetPlayerOldPosition(activePlayer);  
-        let clickedPosition = [$(this).data("x"), $(this).data("y")] 
-        moveActivePlayerTo(clickedPosition);
-        if(adjacentPlayers()){
-            console.log("Players are neck to neck !!");
-            // take the active player class put into variable , same as buttons
-            console.log("."+ activePlayer.id+"-content");
-            let playerClass = document.getElementsByClassName("."+ activePlayer.id+"-content");
-            let newAttackButton = document.createElement("Button");
-            let newDefendButton = document.createElement("Button");
-            // Adding the text to the attack & deffend button
-            newAttackButton.textContent = "Attack";
-            newDefendButton.textContent = "Defend";
-            //taking the button element into inside the player element
-            playerClass.appendChild(newAttackButton);
-            playerClass.appendChild(newDefendButton);
-            // Adding Classes to Attack button & defend Button
-            newAttackButton.classList.add("fightButton", "attackButton");
-            newDefendButton.classList.add("fightButton", "defendButton");
-            //Adding Id to the buttons
-            newAttackButton.setAttribute('id', 'attack');
-            newDefendButton.setAttribute('id', 'defend');
-        }
-        /*else if(hasWeapon(clickedPosition)){ 
-
-        }*/
-        else{
-            // set other player as active and highlight
-            setActivePlayer(nextPlayer())
-        }
-        
-       }) 
+        handleClickonHighlight();
     }
 
-    function hasWeapon(clickedPosition){
+    function handleClickonHighlight(){
+        $('.highlight').on("click", function(){
+            if(!$(this).hasClass("highlight")){
+                return;
+            }
+         resetPlayerOldPosition(activePlayer);  
+         let clickedPosition = [$(this).data("x"), $(this).data("y")] 
+         moveActivePlayerTo(clickedPosition);
+         if(adjacentPlayers()){
+            handleAdjacentPlayers(); 
+            return;
+         }
+         
+         let weapon = hasWeapon($(this))
+         if(weapon){ 
+            activePlayer.weapon = weapon;
+         }
+         
+             hideActionButtons();
+             setActivePlayer(nextPlayer());
+         
+        }) 
+    }
 
+    function handleAdjacentPlayers(){
+        showActionButtons();
+
+        console.log("Players are neck to neck !!");
+
+    }
+
+    function showActionButtons(){
+        $(".player-buttons").removeClass("hidden");
+    }
+    
+    function hideActionButtons(){
+        $(".player-buttons").addClass("hidden");
+    }
+
+    function hasWeapon(grid){
+        if(grid.hasClass("weapons") && grid.attr("weapon")){
+            console.log(grid.hasClass("weapons"), grid.attr("weapon"), weapons.find(function(x) { return x.name == grid.attr("weapon")}));
+            return weapons.find(function(x) { return x.name == grid.attr("weapon")});
+        } else {
+            return null;
+        }
     }
 
     function adjacentPlayers(){
+        console.log(player1.position);
+        console.log(player2.position);
       let p1X = player1.position.x;
       let p1Y = player1.position.y;
       let p2X = player2.position.x;
       let p2Y = player2.position.y;
-      if((p1X-1==p2X) || (p1X+1==p2X) || (p1Y-1==p2Y) || (p1Y+1==p2Y)){
-          console.log("Adjucent WARRRR");
+      if((p1X==p2X && Math.abs(p1Y - p2Y) == 1) || (p1Y == p2Y && Math.abs(p1X - p2X) == 1)){
+          console.log("Adjacent WARRRR");
           return true;
       }
       else{
@@ -327,4 +299,41 @@
         setActivePlayer(player1); 
 
     })
+    
+    $('#attack1').click(function() {
+        attacking(player1);
+        setActivePlayer(player2);
+    });
+    $('#attack2').click(function() {
+        attacking(player2);
+        setActivePlayer(player1);
+    });
+    $('#defend1').click(function() {
+        defending(player1);
+        setActivePlayer(player2);
+    });
+    $('#defend2').click(function() {
+        defending(player2);
+        setActivePlayer(player1);
+    });
+
+    function attacking(player){
+        player.action = "attack";
+        updateResult();
+    }
+
+    function defending(player){
+        player.action = "defend";
+        updateResult();
+    }
+
+    function updateResult(){
+       if(player1.action && player2.action){
+        console.log(player1.damagePower());
+        console.log(player2.damagePower()); 
+
+
+       } 
+    }
+
 })()
