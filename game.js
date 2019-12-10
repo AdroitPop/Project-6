@@ -123,6 +123,8 @@
     //   setUnavailable(position1)
       gridByPosition(position1).addClass("unavailable player1")
       gridByPosition(position2).addClass("unavailable player2")
+      $(".player1-life").html(player1.life);
+      $(".player2-life").html(player2.life);
     }
 
     // Reseting & re assigning everything as a new
@@ -222,6 +224,8 @@
          let weapon = hasWeapon($(this))
          if(weapon){ 
             activePlayer.weapon = weapon;
+            console.log(weapon.name);
+            $("#"+ activePlayer.id + "-weapon").addClass(weapon.className);
          }
          
              hideActionButtons();
@@ -232,17 +236,24 @@
 
     function handleAdjacentPlayers(){
         showActionButtons();
-
+        showWeapon();
         console.log("Players are neck to neck !!");
 
     }
 
+    // adding the Weapon When a player adjacent 
+    function showWeapon(){
+        $(".player1-weapon").append("<h2>"+weapon.name+"</h2>");
+    }
+    
     function showActionButtons(){
         $(".player-buttons").removeClass("hidden");
+       
     }
     
     function hideActionButtons(){
         $(".player-buttons").addClass("hidden");
+        
     }
 
     function hasWeapon(grid){
