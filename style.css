@@ -97,54 +97,44 @@
 
   .grid-item.weapons{
     background-color: rgb(253, 253, 253);
+    background-position: center; 
+    background-repeat: no-repeat; 
+    background-size: 60px 50px;
+    margin: auto;
   }
 
-  .grid-item.weapon1{
+  .player-weapon{
+    background-position: center; 
+    background-repeat: no-repeat; 
+    background-size: 60px 50px;
+    margin: auto;
+  }
+  .grid-item.weapon1, .player-weapon.weapon1  {
     background-image:url("images/gun.jpg");
-    background-position: center; 
-    background-repeat: no-repeat; 
-    background-size: 60px 50px;
-    margin: auto;
+    
   }
 
-  .grid-item.weapon2{
+  .grid-item.weapon2, .player-weapon.weapon2{
     background-image:url("images/hammer.png");
-    background-position: center; 
-    background-repeat: no-repeat; 
-    background-size: 60px 50px;
-    margin: auto;
+    
   }
 
-  .grid-item.weapon3{
+  .grid-item.weapon3, .player-weapon.weapon3{
     background-image:url("images/sword.png");
-    background-position: center; 
-    background-repeat: no-repeat; 
-    background-size: 60px 50px;
-    margin: auto;
+   
   }
 
-  .grid-item.weapon4{
+  .grid-item.weapon4, .player-weapon.weapon4{
     background-image:url("images/bomb.png");
-    background-position: center; 
-    background-repeat: no-repeat; 
-    background-size: 60px 50px;
-    margin: auto;
+    
   }
 
-  .grid-item.shield {
+  .grid-item.shield, .player-weapon.shield{
     background-image:url("images/shield.png");
-    background-position: center; 
-    background-repeat: no-repeat; 
-    background-size: 50px 50px;
-    margin: auto;
   }
 
   .grid-item.block {
     background-image: url("images/block.png");
-    background-position: center; 
-    background-repeat: no-repeat; 
-    background-size: 60px 70px;
-    margin: auto;
 }
 
 .active-player {
@@ -154,4 +144,8 @@
 .highlight {
   background-color: #ffea27;
   cursor: pointer;
+}
+
+.player-life{
+  color: #ff0000;
 }
