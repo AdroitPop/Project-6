@@ -104,6 +104,9 @@
   }
 
   .player-weapon{
+    width: 60px;
+    height: 50px;
+    display: inline-flex;
     background-position: center; 
     background-repeat: no-repeat; 
     background-size: 60px 50px;
@@ -138,7 +141,7 @@
 }
 
 .active-player {
-  border: 2px dashed red;
+  border: 4px dotted red;
 }
 
 .highlight {
