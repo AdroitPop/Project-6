@@ -48,6 +48,7 @@
             y: 0
         };
         this.life = 100;
+        this.weapon = weapons[Math.floor(Math.random() * weapons.length)];
         this.action = null;
         this.damagePower = function () {
             return (this.weapon ? this.weapon.damage : 0);
@@ -124,6 +125,8 @@
         gridByPosition(position1).addClass("unavailable player1")
         gridByPosition(position2).addClass("unavailable player2")
         showPlayersLife();
+        showPlayerWeapon(player1);
+        showPlayerWeapon(player2);
     }
 
     //Show players Life 
@@ -133,22 +136,35 @@
         $(".player2-life").html(Math.max(player2.life, 0));
 
         if (player1.life <= 0) {
-            setTimeout(function(){alert("Player2 wins")}, 100);
-             resetAll();
+            resetBattleField();
+            setTimeout(function(){
+                if(confirm("Player2 wins! \n Do u want to continue?")) {
+                    location.reload();
+                }
+            }, 100);
+             
+            
          } else if (player2.life <= 0) {
-             setTimeout(function(){alert("Player1 wins")}, 100);
-             resetAll();
+            resetBattleField();
+
+            setTimeout(function(){
+                if(confirm("Player1 wins! \n Do u want to continue?")) {
+                    location.reload();
+                }
+            }, 100);
+             
          } 
     }
 
-    // Reseting & re assigning everything as a new
-    function resetAll() {
-        $('.grid-item').removeClass().addClass("grid-item");
-        
+    function resetBattleField() {
+        $('.grid-item').remove();
+        $('#start-game').remove();
+
     }
 
     function setActivePlayer(player) {
         activePlayer = player;
+        $('.active-player').removeClass('active-player');
         $("." + activePlayer.id + "-content").addClass("active-player");
         highlightPath();
     }
@@ -223,6 +239,10 @@
         handleClickonHighlight();
     }
 
+    function showPlayerWeapon(player){
+        $("#" + player.id + "-weapon").addClass(player.weapon.className);
+    }
+
     function handleClickonHighlight() {
         $('.highlight').on("click", function () {
             if (!$(this).hasClass("highlight")) {
@@ -239,9 +259,7 @@
             let weapon = hasWeapon($(this))
             if (weapon) {
                 activePlayer.weapon = weapon;
-                console.log(weapon.name);
-                console.log($("#" + activePlayer.id + "-weapon"));
-                $("#" + activePlayer.id + "-weapon").addClass(weapon.className);
+                showPlayerWeapon(activePlayer);
             }
 
             hideActionButtons();
@@ -258,7 +276,8 @@
 
 
     function showActionButtons() {
-        $(".player-buttons").removeClass("hidden");
+        //$(".player-buttons").removeClass("hidden");
+        $("." + activePlayer.id + "-buttons").addClass("hidden");
 
     }
 
@@ -313,7 +332,7 @@
     // initiating Game!!
     generateGrid();
     $('#start-game').click(function () {
-        resetAll();
+        // resetAll();
         deployPlayers();
         deployBlocks();
         // weapon1();

@@ -8,13 +8,15 @@
   #superman{
     widows: 100px;
     width: 100px;
+    height: 65px;
     display: block;
     margin: 0 auto;
   }
   #batman{
     widows: 100px;
     width: 100px;
-     display: block;
+    height: 65px;
+    display: block;
     margin: 0 auto;
   
   }
