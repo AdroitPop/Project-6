@@ -277,7 +277,8 @@
 
     function showActionButtons() {
         //$(".player-buttons").removeClass("hidden");
-        $("." + activePlayer.id + "-buttons").addClass("hidden");
+        console.log("." + activePlayer.id + "-buttons ");
+        $("." + activePlayer.id + "-buttons ").removeClass("hidden");
 
     }
 
