@@ -171,16 +171,28 @@
         $("." + activePlayer.id + "-content").addClass("active-player");
         if (adjacentPlayers()) {
             showActionButtons();
-            highlightPath();
-        } else {
-            highlightPath();
+            activePlayer.highlightPath();
+
         }
+        //removeHighlightPath();
+        highlightPath();
 
     }
+
+    /*
+        function removeHighlightPath() {
+            let currentX = activePlayer.position.x;
+            let currentY = activePlayer.position.y;
+            //   check left side 
+            let leftCount = 1;
+            $('[data-x=' + (currentX - leftCount) + '][data-y=' + currentY + ']').removeClass("highlight");
+        }
+    */
 
     function highlightPath() {
         let currentX = activePlayer.position.x;
         let currentY = activePlayer.position.y;
+
         //   check left side 
         let leftCount = 1;
         while (currentX - leftCount >= 0) {
