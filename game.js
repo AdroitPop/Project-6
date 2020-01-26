@@ -1,47 +1,45 @@
 "use strict";
 
 
-(function () {
+(function() {
     const gridCount = 10;
     const blockCount = 12;
 
-    const weapons =
-        [
-            {
-                name: "Gun",
-                damage: 15,
-                className: "weapon1",
-                image: "images/gun.png"
-            },
-            {
-                name: "Hammer",
-                damage: 25,
-                className: "weapon2",
-                image: "images/hammer.png"
-            },
-            {
-                name: "Sword",
-                damage: 30,
-                className: "weapon3",
-                image: "images/sword.png"
-            },
-            {
-                name: "Bomb",
-                damage: 35,
-                className: "weapon4",
-                image: "images/bomb.png"
-            },
-            {
-                name: "Shield",
-                damage: 20,
-                className: "shield",
-                image: "images/shield"
-            }
+    const weapons = [{
+            name: "Gun",
+            damage: 15,
+            className: "weapon1",
+            image: "images/gun.png"
+        },
+        {
+            name: "Hammer",
+            damage: 25,
+            className: "weapon2",
+            image: "images/hammer.png"
+        },
+        {
+            name: "Sword",
+            damage: 30,
+            className: "weapon3",
+            image: "images/sword.png"
+        },
+        {
+            name: "Bomb",
+            damage: 35,
+            className: "weapon4",
+            image: "images/bomb.png"
+        },
+        {
+            name: "Shield",
+            damage: 20,
+            className: "shield",
+            image: "images/shield"
+        }
 
-        ];
+    ];
 
     // Adding the players id
-    const Player = function (id) {
+    const Player = function(id) {
         this.id = id;
         this.position = {
             x: 0,
@@ -50,7 +48,7 @@
         this.life = 100;
         this.weapon = weapons[Math.floor(Math.random() * weapons.length)];
         this.action = null;
-        this.damagePower = function () {
+        this.damagePower = function() {
             return (this.weapon ? this.weapon.damage : 0);
         }
     }
@@ -58,6 +56,7 @@
     const player1 = new Player("player1");
     const player2 = new Player("player2");
     var activePlayer
+
     function generateRandomPosition() {
         return [Math.floor(Math.random() * gridCount), Math.floor(Math.random() * gridCount)];
     }
@@ -99,7 +98,7 @@
     //Deploying the weapons in random positions
 
     function deployWeapons() {
-        weapons.forEach(function (weapon) {
+        weapons.forEach(function(weapon) {
             let placed = false;
 
             while (!placed) {
@@ -137,23 +136,23 @@
 
         if (player1.life <= 0) {
             resetBattleField();
-            setTimeout(function(){
-                if(confirm("Player2 wins! \n Do u want to continue?")) {
+            setTimeout(function() {
+                if (confirm("Player2 wins! \n Do u want to continue?")) {
                     location.reload();
                 }
             }, 100);
-             
-            
-         } else if (player2.life <= 0) {
+
+
+        } else if (player2.life <= 0) {
             resetBattleField();
 
-            setTimeout(function(){
-                if(confirm("Player1 wins! \n Do u want to continue?")) {
+            setTimeout(function() {
+                if (confirm("Player1 wins! \n Do u want to continue?")) {
                     location.reload();
                 }
             }, 100);
-             
-         } 
+
+        }
     }
 
     function resetBattleField() {
@@ -162,11 +161,21 @@
 
     }
 
+    function resetAll() {
+        $('.grid-item').removeClass().addClass("grid-item");
+    }
+
     function setActivePlayer(player) {
         activePlayer = player;
         $('.active-player').removeClass('active-player');
         $("." + activePlayer.id + "-content").addClass("active-player");
-        highlightPath();
+        if (adjacentPlayers()) {
+            showActionButtons();
+            highlightPath();
+        } else {
+            highlightPath();
+        }
+
     }
 
     function highlightPath() {
@@ -239,12 +248,12 @@
         handleClickonHighlight();
     }
 
-    function showPlayerWeapon(player){
+    function showPlayerWeapon(player) {
         $("#" + player.id + "-weapon").addClass(player.weapon.className);
     }
 
     function handleClickonHighlight() {
-        $('.highlight').on("click", function () {
+        $('.highlight').on("click", function() {
             if (!$(this).hasClass("highlight")) {
                 return;
             }
@@ -276,7 +285,7 @@
 
 
     function showActionButtons() {
-        //$(".player-buttons").removeClass("hidden");
+        hideActionButtons();
         console.log("." + activePlayer.id + "-buttons ");
         $("." + activePlayer.id + "-buttons ").removeClass("hidden");
 
@@ -289,8 +298,8 @@
 
     function hasWeapon(grid) {
         if (grid.hasClass("weapons") && grid.attr("weapon")) {
-            console.log(grid.hasClass("weapons"), grid.attr("weapon"), weapons.find(function (x) { return x.name == grid.attr("weapon") }));
-            return weapons.find(function (x) { return x.name == grid.attr("weapon") });
+            console.log(grid.hasClass("weapons"), grid.attr("weapon"), weapons.find(function(x) { return x.name == grid.attr("weapon") }));
+            return weapons.find(function(x) { return x.name == grid.attr("weapon") });
         } else {
             return null;
         }
@@ -306,8 +315,7 @@
         if ((p1X == p2X && Math.abs(p1Y - p2Y) == 1) || (p1Y == p2Y && Math.abs(p1X - p2X) == 1)) {
             console.log("Adjacent WARRRR");
             return true;
-        }
-        else {
+        } else {
             console.log("Go on !! keep playing!!");
             return false;
         }
@@ -332,8 +340,8 @@
 
     // initiating Game!!
     generateGrid();
-    $('#start-game').click(function () {
-        // resetAll();
+    $('#start-game').click(function() {
+        resetAll();
         deployPlayers();
         deployBlocks();
         // weapon1();
@@ -342,19 +350,19 @@
 
     })
 
-    $('#attack1').click(function () {
+    $('#attack1').click(function() {
         attacking(player1);
         setActivePlayer(player2);
     });
-    $('#attack2').click(function () {
+    $('#attack2').click(function() {
         attacking(player2);
         setActivePlayer(player1);
     });
-    $('#defend1').click(function () {
+    $('#defend1').click(function() {
         defending(player1);
         setActivePlayer(player2);
     });
-    $('#defend2').click(function () {
+    $('#defend2').click(function() {
         defending(player2);
         setActivePlayer(player1);
     });
@@ -389,10 +397,10 @@
             }
             showPlayersLife();
 
-            
-                player1.action = null;
-                player2.action = null;
-            
+
+            player1.action = null;
+            player2.action = null;
+
         }
     }
 
